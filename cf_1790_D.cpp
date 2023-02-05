@@ -1,43 +1,42 @@
+/*
+https://codeforces.com/contest/1790/problem/D
+*/
 #include<bits/stdc++.h>
 using namespace std;
 
-
 void solve(){
 	int n;
-	cin>>n;
+	scanf("%d",&n);
 
 	vector<int> vec;
-	unordered_map<int,int> mp;
+	map<int,int> mp;
 
 	for(int i=0;i<n;++i){
 		int x;
-		cin>>x;
+		scanf("%d",&x);
+
 		if(!mp[x]) vec.push_back(x);
 		mp[x]++;
 	}
 
 	sort(vec.begin(),vec.end());
 
-	int ans=0;
-	for(int i=0;i+1<vec.size();++i){
-		int mx=0;
-		while(i+1<vec.size() && vec[i]+1==vec[i+1]){
-			++i;
-			mx = max(mx,mp[vec[i]]);
-			mx = max(mx,mp[vec[i+1]]);
+	int ans=mp[vec[vec.size()-1]];
+	for(int i=vec.size()-2;i>=0;--i){
+		if(vec[i]+1==vec[i+1]){
+			ans+=max(0, mp[vec[i]]-mp[vec[i+1]]);
 		}
-		ans+=mx;
+		else if(vec[i+1]-vec[i]>1) {
+			ans+=mp[vec[i]];
+		}
 	}
-	cout<<(ans==0 ? n : ans)<<endl;
+
+	printf("%d\n",ans);
 }
 
 int main(){
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	
 	int t;
-	cin>>t;
+	scanf("%d",&t);
 
 	while(t--){
 	   solve();
