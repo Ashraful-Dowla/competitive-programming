@@ -1,42 +1,64 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N=1e5+10;
-int b[N];
-string s,t;
+const int N = 1e5 + 10;
+int lps[N];
+string pattern, text;
 
-//time complexity -> O(m)
-void kmpPreprocess(){
-	int i=0,j=-1,m=s.size();
-	b[0]=-1;
+//time complexity -> O(n)
+void kmpPreprocess() {
 
-	while(i<m){
-		while(j>=0 && s[i]!=s[j]){
-			j=b[j];
+	int n = pattern.size();
+	int i = 0, j = 1;
+
+	while (j < n) {
+		while (i > 0 && pattern[i] != pattern[j]) {
+			i = lps[i - 1];
 		}
-		i++,j++;
-		b[i]=j;
+
+		if (pattern[i] == pattern[j]) {
+			i++;
+		}
+
+		lps[j] = i;
+		j++;
+	}
+
+	// for (int i = 0; i < n; ++i) {
+	// 	cout << lps[i] << " ";
+	// }
+}
+
+//time complexity -> O(m+n)
+void kmpSearch() {
+
+	int m = text.size();
+	int n = pattern.size();
+
+	int i = 0, j = 0;
+
+	while (i < m) {
+		while (j > 0 && text[i] != pattern[j]) {
+			j = lps[j - 1];
+		}
+
+		if (j < n && text[i] == pattern[j]) {
+			j++;
+		}
+		i++;
+
+		if (j == n) {
+			cout << i - n << endl;
+		}
 	}
 }
 
-//time complexity -> O(n+m)
-void kmpSearch(){
-	int i=0,j=0,n=t.size();
-	while(i<n){
-		while(j>=0 && t[i]!=s[j]){
-			j=b[j];
-		}
-		i++,j++;
-		if(j==s.size()) {
-			cout<<i-j<<endl;
-			j=b[j];
-		}
-	}
-}
+int main() {
 
-int main(){
-	getline(cin,s);
+	text = "abxabcabcaby";
+	pattern = "abcaby";
+	// pattern = "aaacecaaaacecaaa";
+
 	kmpPreprocess();
-	getline(cin,t);
-	kmpSearch();	
+	kmpSearch();
 }

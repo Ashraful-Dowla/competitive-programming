@@ -3,32 +3,32 @@ using namespace std;
 
 vector<string>valid;
 
-void generate(string &s,int open, int close){
-	if(open==0 && close==0){
+void generate(string &s, int open, int close) {
+	if (open == 0 && close == 0) {
 		valid.push_back(s);
 		return ;
 	}
-	if(open>0){
+	if (open > 0) {
 		s.push_back('(');
-		generate(s,open-1,close);
+		generate(s, open - 1, close);
 		s.pop_back();
 	}
-	if(close>0){
-		if(close>open){
+	if (close > 0) {
+		if (close > open) {
 			s.push_back(')');
-			generate(s,open,close-1);
+			generate(s, open, close - 1);
 			s.pop_back();
 		}
 	}
 }
 
-int main(){
+int main() {
 	int n;
-	cin>>n;
+	cin >> n;
 	string s;
-	generate(s,n,n);
+	generate(s, n, n);
 
-	for(int i=0;i<valid.size();i++){
-		cout<<valid[i]<<endl;
+	for (int i = 0; i < valid.size(); i++) {
+		cout << valid[i] << endl;
 	}
 }

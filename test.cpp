@@ -1,73 +1,108 @@
-//Author: Ashraful Dowla
-
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-#define endl "\n"
-#define Faster ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+int n, m;
+bool visited[20][20];
+map<char, vector<pair<int, int>>>mp;
 
-#define ll long long
-#define ld long double
-#define vi vector<int>
-#define vs vector<string>
-#define vb vector<bool>
-#define pii pair<int,int>
-#define pll pair<ll,ll>
+vector<pair<int, int>> directions = {
+	{0, 1},
+	{0, -1},
+	{1, 0},
+	{ -1, 0}
+};
 
+bool isValid(int x, int y) {
+	return x >= 0 && x < n && y >= 0 && y < m;
+}
 
-#define pb push_back
-#define all(c) (c).begin(),(c).end()
+bool solve(vector<vector<char>>& board, string &word, int x, int y, int idx) {
 
-//debug
-#define vec_prnt(v) for(auto x: v) { cout<<x<<" "; } cout<<"\n"
-#define prnt1(x) cout<<x<<endl;
-#define prnt2(x,y) cout<<x<<" "<<y<<endl;
+	if (idx == word.size()) return true;
 
-const int N = 1e5 + 10;
-const int MOD = 1e9 + 7;
+	bool isPossible = false;
+	for (auto d : directions) {
+		int _x = x + d.first;
+		int _y = y + d.second;
 
-void solve() {
-	int n;
-	cin >> n;
+		if (!isValid(_x, _y) || visited[_x][_y] || board[_x][_y] != word[idx])
+			continue;
 
-	int arr[n + 2], pf[n + 2];
-	for (int i = 1; i <= n; ++i) {
-		cin >> arr[i];
+		visited[_x][_y] = true;
+		isPossible |= solve(board, word, _x, _y, idx + 1);
+		visited[_x][_y] = false;
 	}
 
-	//O(N)
-	for (int i = 1; i <= n; ++i) {
-		pf[i] = pf[i - 1] + arr[i];
+	return isPossible;
+}
+
+vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+
+	n = board.size();
+	m = board[0].size();
+
+	vector<string> ans;
+
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < m; ++j) {
+			mp[board[i][j]].push_back({i, j});
+		}
 	}
 
-	int q;
-	cin >> q;
+	for (string word : words) {
 
+		if (word.size() > n * m) continue;
 
-	// 1........r
-	// 1...l-1
+		auto coord = mp[word[0]];
 
-	// l...r
+		for (auto p : coord) {
 
-	//O(Q)
-	for (int i = 0; i < q; ++i) { // -> q
-		int l, r;
-		cin >> l >> r;
-		cout << pf[r] - pf[l - 1] << endl;
+			int i = p.first, j = p.second;
+			visited[i][j] = true;
+			bool ok = solve(board, word, i, j, 1);
+			visited[i][j] = false;
+
+			if (ok) {
+				ans.push_back(word);
+				break;
+			}
+		}
 	}
 
-
-	// time complexity -> O(N+Q)
-
+	return ans;
 }
 
 int main() {
-	Faster;
 
-	int t;
-	cin >> t;
+	vector<vector<char>> board = {
+		{'o', 'a', 'a', 'n'},
+		{'e', 't', 'a', 'e'},
+		{'i', 'h', 'k', 'r'},
+		{'i', 'f', 'l', 'v'}
+	};
 
-	while (t--) {
-		solve();
+	vector<string> words = {"oath", "pea", "eat", "rain"};
+
+	// vector<vector<char>> board = {
+	// 	{'a', 'b'},
+	// 	{'c', 'd'},
+	// };
+
+	// vector<string> words = {"abcd"};
+
+	// vector<vector<char>> board = {
+	// 	{'o', 'a', 'b', 'n'},
+	// 	{'o', 't', 'a', 'e'},
+	// 	{'a', 'h', 'k', 'r'},
+	// 	{'a', 'f', 'l', 'v'},
+	// };
+
+	// vector<string> words = {"oa", "oaa"};
+
+	auto ans = findWords(board, words);
+
+	for (string word : ans) {
+		cout << word << " ";
 	}
+	cout << endl;
 }
