@@ -1,21 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main(){
+int main() {
 	int n;
-	cin>>n;
+	cin >> n;
 	vector<int>prime_factors;
+
 	//O(sqrt(n))
-	for(int i=2;i*i<=n;++i){
-		while(n%i==0){
+	for (int i = 2; i * i <= n; ++i) {
+		while (n % i == 0) {
 			prime_factors.push_back(i);
-			n/=i;
+			n /= i;
 		}
 	}
-	if(n>1) prime_factors.push_back(n);
+	if (n > 1) prime_factors.push_back(n);
 
-	for(int prime: prime_factors){
-		cout<<prime<<" ";
+	for (int prime : prime_factors) {
+		cout << prime << " ";
 	}
-	cout<<endl;
+	cout << endl;
 }
