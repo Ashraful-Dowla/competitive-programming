@@ -12,7 +12,7 @@ int random_number(int mn, int mx) {
 
 testcase generate_testcase() {
 	testcase randomTest;
-	randomTest.n = random_number(1, 1005);
+	randomTest.n = random_number(1, 10);
 	for (int i = 0; i < randomTest.n; ++i) {
 		int v = random_number(-100, 100);
 		randomTest.nums.push_back(v);
@@ -22,48 +22,44 @@ testcase generate_testcase() {
 }
 
 int brute_force(testcase T) {
+
 	vector<int> nums = T.nums;
-	int n = nums.size();
 
-	int ans = INT_MIN, ii = 0;
-	for (int i = 0; i < n; ++i) {
+	sort(nums.begin(), nums.end());
+	nums.erase( unique( nums.begin(), nums.end() ), nums.end());
+	reverse(nums.begin(), nums.end());
 
-		int sum = 0;
-		for (int j = 0; j < n - i; ++j) {
-			sum += (ii + j) * nums[j];
-		}
-		ii++;
-
-		for (int k = n - i, kk = 0; k < n; ++k, ++kk) {
-			sum += kk * nums[k];
-		}
-
-		ans = max(ans, sum);
-	}
-
-	return ans;
+	if (nums.size() > 2) return nums[2];
+	else return nums[0];
 }
 
 int optimized_solution(testcase T) {
 
 	vector<int> nums = T.nums;
-	int n = nums.size();
-	int rotate_sum = 0, sum = 0;
-	for (int i = 0; i < n; ++i) {
-		rotate_sum += i * nums[i];
-		sum += nums[i];
+
+	long long VAL = 10000000007;
+	long long first = -VAL, second = -VAL, third = -VAL;
+
+	for (int i = 0; i < nums.size(); ++i) {
+		if (first < nums[i]) {
+			first = nums[i];
+		}
 	}
 
-	int ans = rotate_sum;
-
-	for (int i = n - 1; i >= 1; --i) {
-		int d = sum - n * nums[i];
-		rotate_sum += d;
-		ans = max(ans, rotate_sum);
+	for (int i = 0; i < nums.size(); ++i) {
+		if (first > nums[i] * 1LL) {
+			if (nums[i] > second) {
+				third = second;
+				second = nums[i];
+			}
+			else if (nums[i] * 1LL > third && second != nums[i] * 1LL) {
+				third = nums[i];
+			}
+		}
 	}
 
-	return ans;
-
+	if (nums.size() > 2 && third != -VAL) return third;
+	else return first;
 }
 
 void debugger() {
@@ -72,11 +68,15 @@ void debugger() {
 	int ans2 = optimized_solution(random);
 
 	if (ans1 != ans2) {
+		for (int i = 0; i < random.nums.size(); ++i) {
+			cout << random.nums[i] << " ";
+		}
+		cout << endl;
 		cout << "Brute Force: " << endl;
-		cout << random.n << " " << ans1 << endl;
+		cout << ans1 << endl;
 
 		cout << "Optimized Solution: " << endl;
-		cout << random.n << " " << ans2 << endl;
+		cout << ans2 << endl;
 
 		cout << "------------------------------" << endl;
 	}
