@@ -3,7 +3,7 @@ using namespace std;
 
 struct testcase {
 	int n;
-	vector<int> nums;
+	string s;
 };
 
 int random_number(int mn, int mx) {
@@ -12,10 +12,12 @@ int random_number(int mn, int mx) {
 
 testcase generate_testcase() {
 	testcase randomTest;
-	randomTest.n = random_number(1, 10);
+	randomTest.n = random_number(1, 100);
+
+	char ch[2] = {'A', 'B'};
 	for (int i = 0; i < randomTest.n; ++i) {
-		int v = random_number(-100, 100);
-		randomTest.nums.push_back(v);
+		int j = random_number(0, 1);
+		randomTest.s.push_back(ch[j]);
 	}
 
 	return randomTest;
@@ -23,55 +25,79 @@ testcase generate_testcase() {
 
 int brute_force(testcase T) {
 
-	vector<int> nums = T.nums;
+	string s = T.s;
+	int n = s.length(), cnt = 0;
+	bool all = (s[0] == 'B' || s[n - 1] == 'B');
+	for (int i = 0; i < n - 1; i++) {
+		if (s[i] == s[i + 1] && s[i] == 'B') {all = true;}
+	}
+	vector<int> lens;
+	int curr = 0;
+	for (int i = 0; i < n; i++) {
+		if (s[i] == 'A') {curr++;}
+		else {
+			if (curr != 0) {lens.push_back(curr);}
+			curr = 0;
+		}
+	}
+	if (curr != 0) {lens.push_back(curr);}
+	sort(lens.begin(), lens.end());
 
-	sort(nums.begin(), nums.end());
-	nums.erase( unique( nums.begin(), nums.end() ), nums.end());
-	reverse(nums.begin(), nums.end());
+	if (lens.empty()) {
+		return 0;
+	}
 
-	if (nums.size() > 2) return nums[2];
-	else return nums[0];
+	int tot = 0;
+	if (all) {tot += lens[0];}
+	for (int i = 1; i < lens.size(); i++) {
+		tot += lens[i];
+	}
+
+	return tot;
 }
 
 int optimized_solution(testcase T) {
 
-	vector<int> nums = T.nums;
+	string s = T.s;
 
-	long long VAL = 10000000007;
-	long long first = -VAL, second = -VAL, third = -VAL;
+	int n = s.size();
+	int ans = 0;
 
-	for (int i = 0; i < nums.size(); ++i) {
-		if (first < nums[i]) {
-			first = nums[i];
+	vector<int> b;
+	b.push_back(-1);
+
+	for (int i = 0; i < n; ++i) {
+		if (s[i] == 'B') {
+			b.push_back(i);
 		}
 	}
 
-	for (int i = 0; i < nums.size(); ++i) {
-		if (first > nums[i] * 1LL) {
-			if (nums[i] > second) {
-				third = second;
-				second = nums[i];
-			}
-			else if (nums[i] * 1LL > third && second != nums[i] * 1LL) {
-				third = nums[i];
-			}
+	b.push_back(n);
+
+	int sz = b.size();
+	for (int i = 1; i + 1 < sz; ++i) {
+		int len1 = b[i + 1] - b[i] - 1;
+		int len2 = b[i] - b[i - 1] - 1;
+
+		ans += max(len1, len2);
+
+		if (len1 > len2) {
+			b[i] = b[i + 1] - 1;
 		}
 	}
 
-	if (nums.size() > 2 && third != -VAL) return third;
-	else return first;
+	return ans;
 }
 
 void debugger() {
+
 	testcase random = generate_testcase();
 	int ans1 = brute_force(random);
 	int ans2 = optimized_solution(random);
 
 	if (ans1 != ans2) {
-		for (int i = 0; i < random.nums.size(); ++i) {
-			cout << random.nums[i] << " ";
-		}
-		cout << endl;
+
+		cout << random.s << endl;
 		cout << "Brute Force: " << endl;
 		cout << ans1 << endl;
 
