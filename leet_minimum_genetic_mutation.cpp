@@ -1,8 +1,13 @@
+/*
+https://leetcode.com/problems/minimum-genetic-mutation/
+*/
 #include <bits/stdc++.h>
 using namespace std;
 
 unordered_map<string, int> mp;
 vector<int> graph[100];
+bool visited[100];
+int level[100];
 
 int diff(string a, string b) {
 
@@ -13,6 +18,24 @@ int diff(string a, string b) {
 	}
 
 	return d;
+}
+
+void bfs(int s) {
+
+	queue<int> q;
+	q.push(s);
+
+	while (!q.empty()) {
+		int v = q.front();
+		q.pop();
+
+		for (int child : graph[v]) {
+			if (visited[child]) continue;
+			visited[child] = true;
+			level[child] = level[v] + 1;
+			q.push(child);
+		}
+	}
 }
 
 int minMutation(string startGene, string endGene, vector<string>& bank) {
@@ -44,21 +67,20 @@ int minMutation(string startGene, string endGene, vector<string>& bank) {
 		}
 	}
 
-	for (int j = 0; j < bank.size(); ++j) {
-		if (diff(endGene, bank[j]) == 1) {
-			int u = mp[startGene], v = mp[bank[j]];
-			graph[u].push_back(v);
-			graph[v].push_back(u);
-		}
-	}
+	bfs(1);
+
+	if (visited[2]) return level[2];
+	else return -1;
 
 }
 
 int main() {
 
-	// string startGene = "AACCGGTT", endGene = "AACCGGTA";
-	// vector<string>bank = {"AACCGGTA"};
+	string startGene = "AACCGGTT", endGene = "AACCGGTA";
+	vector<string>bank = {"AACCGGTA"};
 
-	string startGene = "AACCGGTT", endGene = "AAACGGTA";
-	vector<string>bank = {"AACCGGTA", "AACCGCTA", "AAACGGTA"};
+	// string startGene = "AACCGGTT", endGene = "AAACGGTA";
+	// vector<string>bank = {"AACCGGTA", "AACCGCTA", "AAACGGTA"};
+
+	cout << minMutation(startGene, endGene, bank) << endl;
 }
