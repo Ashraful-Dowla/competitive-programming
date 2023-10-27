@@ -24,7 +24,6 @@ void dijkstra(int src) {
 		auto node = *st.begin();
 		int v = node.second;
 		int v_dist = node.first;
-
 		st.erase(st.begin());
 
 		if (vis[v]) continue;

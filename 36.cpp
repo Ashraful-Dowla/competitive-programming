@@ -4,28 +4,28 @@ https://www.hackerearth.com/practice/data-structures/trees/heapspriority-queues/
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
+int main(){
 	int t;
-	cin >> t;
-	while (t--) {
-		int n, k;
-		cin >> n >> k;
+	cin>>t;
+	while(t--){
+		int n,k;
+		cin>>n>>k;
 		multiset<long long> bags;
-		for (int i = 0; i < n; i++) {
+		for(int i=0;i<n;i++){
 			long long candy;
-			cin >> candy;
+			cin>>candy;
 			bags.insert(candy);
 		}
 
-		long long total = 0;
+		long long total=0;
 
-		for (int i = 0; i < k; i++) {
+		for(int i=0;i<k;i++){
 			auto last_it = (--bags.end());
-			total += (*last_it);
+			total+=(*last_it);
 			bags.erase(last_it);
-			bags.insert((*last_it) / 2);
+			bags.insert((*last_it)/2);
 		}
 
-		cout << total << endl;
+		cout<<total<<endl;
 	}
 }

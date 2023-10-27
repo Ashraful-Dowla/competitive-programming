@@ -1,46 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-	map<pair<int, int>, int>m;
+int main(){
+	map<pair<int,int>,int>m;
 
-	pair<int, int> p1, p2;
+	pair<int,int> p1,p2;
 
-	p1 = {1, 2};
-	p2 = {2, 3};
-	cout << (p1 > p2) << endl;
+	p1 = {1,2};
+	p2 = {2,3};
+	cout<<(p1>p2)<<endl;
 
-	set<int>s1, s2;
-	s1 = {1, 2, 3};
-	s2 = {2, 3};
+	set<int>s1,s2;
+	s1 = {1,2,3};
+	s2 = {2,3};
 
-	cout << (s1 < s2) << endl;
+	cout<<(s1<s2)<<endl;
 
-	map<pair<string, string>, vector<int>>mp;
+	map<pair<string,string>,vector<int>>mp;
 
 	int t;
-	cin >> t;
-	while (t--) {
-		string fn, ln;
+	cin>>t;
+	while(t--){
+		string fn,ln;
 		int cnt;
-		cin >> fn >> ln >> cnt;
+		cin>>fn>>ln>>cnt;
 
-		for (int i = 0; i < cnt; i++) {
+		for(int i=0;i<cnt;i++){
 			int x;
-			cin >> x;
-			mp[ {fn, ln}].push_back(x);
+			cin>>x;
+			mp[{fn,ln}].push_back(x);
 		}
 	}
 
-	for (auto &pr : mp) {
+	for(auto &pr:mp){
 		auto &full_name = pr.first;
 		auto &list = pr.second;
-		cout << full_name.first << " " << full_name.second << endl;
-		cout << list.size() << endl;
+		cout<<full_name.first<<" "<<full_name.second<<endl;
+		cout<<list.size()<<endl;
 
-		for (auto &el : list) {
-			cout << el << " ";
+		for(auto &el: list){
+			cout<<el<<" ";
 		}
-		cout << endl;
+		cout<<endl;
 	}
 }
