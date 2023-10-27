@@ -1,44 +1,29 @@
-//Author: Ashraful Dowla
-
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-#define endl "\n"
-#define Faster ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+int main() {
 
-#define ll long long
-#define ld long double
-#define vi vector<int> 
-#define vs vector<string>
-#define vb vector<bool> 
-#define vll vector<ll>
-#define pii pair<int,int>
-#define pll pair<ll,ll>
+	queue<int> q;
 
+	q.push(1);
+	q.push(2);
+	q.push(3);
 
-#define pb push_back
-#define eb emplace_back
-#define all(c) (c).begin(),(c).end()
+	while (!q.empty()) {
+		cout << q.front() << endl;
+		q.pop();
+	}
 
-//debug
-#define vec_prnt(v) for(auto x: v) { cout<<x<<" "; } cout<<"\n"
-#define prnt1(x) cout<<x<<endl
-#define prnt2(x,y) cout<<x<<" "<<y<<endl
+	cout << endl;
 
-const int N=1e5+10;
-const int MOD=1e9+7;
+	stack<int> stk;
 
-void solve(){
-	
-}
+	stk.push(1);
+	stk.push(2);
+	stk.push(3);
 
-int main(){
-	Faster;
-
-	int t;
-	cin>>t;
-
-	while(t--){
-	   solve();
+	while (!stk.empty()) {
+		cout << stk.top() << endl;
+		stk.pop();
 	}
 }

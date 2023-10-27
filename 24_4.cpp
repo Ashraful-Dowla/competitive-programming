@@ -5,35 +5,35 @@ https://www.hackerearth.com/problem/algorithm/borrow-robo/
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N=2e5+10;
+const int N = 2e5 + 10;
 int hsh[N];
 
-int main(){
+int main() {
 	int n;
-	cin>>n;
-	int arr[n+5];
-	for(int i=1;i<=n;i++){
-		cin>>arr[i];
+	cin >> n;
+	int arr[n + 5];
+	for (int i = 1; i <= n; i++) {
+		cin >> arr[i];
 		hsh[arr[i]]++;
 	}
 	int q;
-	cin>>q;
-	while(q--){
-		int indx,p;
-		cin>>indx>>p;
+	cin >> q;
+	while (q--) {
+		int indx, p;
+		cin >> indx >> p;
 
-		int cnt=0;
+		int cnt = 0;
 		hsh[arr[indx]]--;
-		if(p>arr[indx]){
-			cnt+=(hsh[p]+hsh[p-arr[indx]]);
-			if(cnt==0) cnt=-1;
+		if (p > arr[indx]) {
+			cnt += (hsh[p] + hsh[p - arr[indx]]);
+			if (cnt == 0) cnt = -1;
 		}
-		else if(p<arr[indx]) {
-			cnt+=(hsh[p]+hsh[arr[indx]-p]);
-			if(cnt==0) cnt=-1;
+		else if (p < arr[indx]) {
+			cnt += (hsh[p] + hsh[arr[indx] - p]);
+			if (cnt == 0) cnt = -1;
 		}
 
-		cout<<cnt<<endl;
+		cout << cnt << endl;
 
 	}
 }
