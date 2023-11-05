@@ -1,18 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main(){
+int main() {
 	int n;
-	cin>>n;
+	cin >> n;
 	// int arr[n];
 	vector<int>arr(n);
-	for(int i=0;i<n;i++){
-		cin>>arr[i];
-	}	
-	// sort(arr+2,arr+n);
-	sort(arr.begin(),arr.end());
-	for(int i=0;i<n;i++){
-		cout<<arr[i]<<" ";
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
 	}
-	cout<<endl;
+	// sort(arr+2,arr+n);
+	sort(arr.begin(), arr.end());
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
 }
