@@ -5,8 +5,8 @@ using namespace std;
 int main() {
 	vector<int>v = { -1, 2, 4, -3, 5, 2, -5, 2};
 
-	int sum = 0, best = 0;
-	for (int i = 0; i < v.size(); ++i) {
+	int sum = v[0], best = v[0];
+	for (int i = 1; i < v.size(); ++i) {
 		sum = max(v[i], sum + v[i]);
 		best = max(best, sum);
 	}
