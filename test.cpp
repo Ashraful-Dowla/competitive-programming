@@ -1,31 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-string s;
 
-void solve(int open, int close) {
+void printBinary(int n) {
 
-	if (open == 0 && close == 0) {
-		cout << s << endl;
-		return ;
+	for (int i = 6; i >= 0; --i) {
+		cout << ((n >> i) & 1);
 	}
-
-
-	if (open > 0) {
-		s.push_back('(');
-		solve(open - 1, close);
-		s.pop_back();
-	}
-
-	if (close > 0 && close > open) {
-		s.push_back(')');
-		solve(open, close - 1);
-		s.pop_back();
-	}
+	cout << endl;
 }
 
 int main() {
 
-	int n = 3;
-	solve(n, n);
+	vector<int> A = {1, 4, 6};
+	vector<int> B = {2, 4, 5};
+
+	int a = 0;
+
+	for (int x : A) {
+		a |= (1 << x);
+	}
+
+	int b = 0;
+	for (int x : B) {
+		b |= (1 << x);
+	}
+
+	int c = a ^ b; // difference
+
+	int mask = c & -c; // rightmost bit where differ starts
+
+	//A - B
+	for (int i = 0; i <= 10; ++i) {
+		int v = (a & mask);
+		if ((v & (1 << i))) {
+			cout << i << " ";
+		}
+	}
+
+	cout << endl;
+
+	// B-A
+	for (int i = 0; i <= 10; ++i) {
+		int v = (b & mask);
+		if ((v & (1 << i))) {
+			cout << i << " ";
+		}
+	}
+
+	cout << endl;
+
 }
