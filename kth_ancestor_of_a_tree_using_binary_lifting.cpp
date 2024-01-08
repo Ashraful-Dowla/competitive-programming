@@ -9,7 +9,7 @@ void preprocess(int n, vector<int>& parent) {
 
 	lg = log2(n) + 1;
 
-	// parent[0] = 0;
+	parent[0] = 0;
 	for (int v = 0; v < n; ++v) {
 		up[v][0] = parent[v];
 
@@ -45,12 +45,6 @@ int main() {
 
 	int n = 15;
 	vector<int> parent = { -1, 0, 1, 0, 1, 0, 5, 4, 7, 8, 9, 7, 10, 12, 13};
-
-	for (int i = 0; i < N; ++i) {
-		for (int j = 0; j < 20; ++j) {
-			up[i][j] = -1;
-		}
-	}
 
 	preprocess(n, parent);
 
