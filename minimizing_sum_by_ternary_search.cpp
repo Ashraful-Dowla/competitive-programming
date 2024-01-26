@@ -31,7 +31,7 @@ int main() {
 
 	int lo = 1, hi = 10;
 
-	while (hi - lo > 1) {
+	while (lo <= hi) {
 
 		int mid1 = lo + (hi - lo) / 3;
 		int mid2 = hi - (hi - lo) / 3;
@@ -40,17 +40,14 @@ int main() {
 		int res2 = convex_func(v, mid2);
 
 		if (res1 < res2) {
-			hi = mid1;
+			hi = mid2 - 1;
 		}
 		else {
-			lo = mid2;
+			lo = mid1 + 1;
 		}
+
 	}
 
-	if (convex_func(v, lo) < convex_func(v, hi)) {
-		cout << lo << endl;
-	}
-	else {
-		cout << hi << endl;
-	}
+	cout << hi << endl;
+
 }

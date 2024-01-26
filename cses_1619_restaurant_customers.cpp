@@ -1,31 +1,33 @@
+/*
+https://cses.fi/problemset/task/1619/
+*/
 #include <bits/stdc++.h>
 using namespace std;
+
+typedef long long ll;
 
 int main() {
 
 	int n;
 	cin >> n;
 
-	vector<pair<int, int>>v(n);
+	map<ll, ll> mp;
 
 	for (int i = 0; i < n; ++i) {
-		cin >> v[i].first >> v[i].second;
+		ll a, b;
+		cin >> a >> b;
+
+		mp[a]++;
+		mp[b + 1]--;
 	}
 
-	sort(v.begin(), v.end());
+	ll prefix = 0, ans = 0;
 
-	int mx = 0, ans = 1;
-	for (int i = 0; i + 1 < n; ++i) {
-		if (v[i].second >= v[i + 1].first) {
-			mx++;
-			v[i + 1].second = max(v[i + 1].second, v[i].second);
-		}
-		else {
-			ans = max(ans, mx);
-			mx = 0;
-		}
+	for (auto p : mp) {
+		prefix += p.second;
+		ans = max(ans, prefix);
 	}
 
-	ans = max(ans, mx);
 	cout << ans << endl;
+
 }
