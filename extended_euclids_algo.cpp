@@ -1,21 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-tuple<int,int,int> gcd(int a,int b){
-	if(b==0) return {1,0,a};
+struct triplet
+{
+	int gcd, x, y;
+};
 
-	int x,y,g;
-	tie(x,y,g)=gcd(b,a%b);
+// ax + by = gcd(a,b)
+// if b = 0 , x = 1, y = 0
 
-	return {y,x-(a/b)*y,g};
+triplet extended_gcd(int a, int b) {
+
+	if (b == 0) {
+		triplet t;
+		t.x = 1;
+		t.gcd = a;
+		t.y = 0;
+
+		return t;
+	}
+
+	triplet res = extended_gcd(b, a % b);
+	triplet ans;
+
+	ans.x = res.y;
+	ans.gcd = res.gcd;
+	ans.y = res.x - (a / b) * res.y;
+
+	return ans;
 }
 
 //time complexity->O(logn)
-int main(){
-	int a,b;
-	cin>>a>>b;
+int main() {
 
-	int x,y,g;
-	tie(x,y,g)=gcd(a,b);
-	cout<<x<<" "<<y<<" "<<g<<endl;
+	int a, b;
+	cin >> a >> b;
+
+	triplet ans = extended_gcd(a, b);
+	cout << ans.x << " " << ans.y << " " << ans.gcd << endl;
+
 }

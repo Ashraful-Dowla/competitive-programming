@@ -18,6 +18,7 @@ void build(int node, int st, int nd) {
 }
 
 void update(int node, int st, int nd, int l, int r, int val) {
+	
 	if (lazy[node] != 0) {
 		tree[node] += (nd - st + 1) * lazy[node];
 		lazy[2 * node] += lazy[node];
