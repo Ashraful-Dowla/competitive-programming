@@ -1,48 +1,59 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+const int N = 2e5 + 10;
+int pf[30][N];
+
+void clr(int n) {
+	for (int i = 0; i < 26; ++i) {
+		for (int j = 0; j <= n; ++j) {
+			pf[i][j] = 0;
+		}
+	}
+}
+
+void solve() {
+
+	string s;
+	cin >> s;
+
+	int n = s.size();
+	s = "_" + s;
+
+	clr(n);
+
+	unordered_map<char, int> mp;
+
+	for (int i = 1; i <= n; ++i) {
+		pf[s[i] - 'a'][i]++;
+		mp[s[i]]++;
+	}
+
+	for (int i = 0; i < 26; ++i) {
+		for (int j = 1; j <= n; ++j) {
+			pf[i][j] += pf[i][j - 1];
+		}
+	}
+
+	int ans = 1e6;
+	for (char ch = 'a'; ch <= 'z'; ++ch) {
+		if (mp[ch] > 0) {
+			int k = mp[ch];
+			for (int i = k; i <= n; ++i) {
+				int len = pf[ch - 'a'][i] - pf[ch - 'a'][i - k];
+				ans = min(ans, k - len);
+			}
+		}
+	}
+
+	cout << ans << endl;
+}
+
 int main() {
+	int t;
+	cin >> t;
 
-
-	while (true) {
-
-		cout << "press 1: add" << endl;
-		cout << "press 2: subract" << endl;
-		cout << "press 3: multiply" << endl;
-		cout << "press 4: divisble" << endl;
-		cout << "press 0: exit" << endl;
-
-		int t;
-		cin >> t;
-
-		if (t > 4) {
-			cout << "Please enter a valid type" << endl;
-			continue;
-		}
-
-		if (t == 0) break;
-		else {
-			cout << "Enter two number" << endl;
-			int a, b;
-			cin >> a >> b;
-
-			if (t == 1) {
-				cout << a + b << endl;
-			}
-			else if (t == 2) {
-				cout << a - b << endl;
-			}
-			else if (t == 3) {
-				cout << a*b << endl;
-			}
-			else {
-				if (b == 0) {
-					cout << "Undefined" << endl;
-				}
-				else {
-					cout << a / b << endl;
-				}
-			}
-		}
+	while (t--) {
+		solve();
 	}
 }
