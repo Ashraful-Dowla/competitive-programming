@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/contest/1954/problem/C
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,27 +32,20 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	string x, y;
+	cin >> x;
+	cin >> y;
 
-	ll ans = a;
-
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
-
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
+	for (int i = 0; i < x.size(); ++i) {
+		if (x < y && x[i] < y[i]) {
+			swap(x[i], y[i]);
 		}
-
-		c -= d;
-		b += d;
+		else if (y < x && y[i] < x[i]) {
+			swap(y[i], x[i]);
+		}
 	}
 
-	ans += b / 3;
-	ans += (c + 2) / 3;
-
-	cout << ans << endl;
+	cout << x << endl << y << endl;
 }
 
 int main() {

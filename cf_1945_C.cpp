@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/contest/1945/problem/C
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,27 +32,32 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	int n;
+	cin >> n;
 
-	ll ans = a;
+	string s;
+	cin >> s;
 
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
+	s = "_" + s;
 
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
-		}
+	int pf[n + 3] = {0};
 
-		c -= d;
-		b += d;
+	for (int i = 1; i <= n; ++i) {
+		pf[i] = pf[i - 1] + (s[i] == '1');
 	}
 
-	ans += b / 3;
-	ans += (c + 2) / 3;
+	vector<pair<int, int>> ans;
+	for (int i = 0; i <= n; ++i) {
+		int z = i - pf[i];
+		int o = pf[n] - pf[i];
 
-	cout << ans << endl;
+		if (z >= (i + 1) / 2 && o >= (n - i + 1) / 2) {
+			ans.push_back({abs((n - 2 * i) / 2), i});
+		}
+	}
+
+	sort(ans.begin(), ans.end());
+	cout << ans[0].second << endl;
 }
 
 int main() {

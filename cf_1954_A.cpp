@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/contest/1954/problem/A
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,27 +32,16 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	int n, m, k;
+	cin >> n >> m >> k;
 
-	ll ans = a;
-
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
-
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
-		}
-
-		c -= d;
-		b += d;
+	int c = (n + m - 1) / m;
+	if (n - c > k) {
+		cout << "YES" << endl;
 	}
-
-	ans += b / 3;
-	ans += (c + 2) / 3;
-
-	cout << ans << endl;
+	else {
+		cout << "NO" << endl;
+	}
 }
 
 int main() {

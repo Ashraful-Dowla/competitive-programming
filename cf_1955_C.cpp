@@ -1,7 +1,8 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/contest/1955/problem/C
 */
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -27,32 +28,46 @@ using namespace std;
 #define prnt1(x) cout<<x<<endl
 #define prnt2(x,y) cout<<x<<" "<<y<<endl
 
-const int N = 1e5 + 10;
+const int N = 2e5 + 10;
 const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	int n;
+	ll k;
+	cin >> n >> k;
 
-	ll ans = a;
-
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
-
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
-		}
-
-		c -= d;
-		b += d;
+	deque<ll> dq;
+	for (int i = 0; i < n; ++i) {
+		ll x;
+		cin >> x;
+		dq.push_back(x);
 	}
 
-	ans += b / 3;
-	ans += (c + 2) / 3;
+	while (dq.size() > 1 && k > 0) {
 
-	cout << ans << endl;
+		ll mn = min(dq.front(), dq.back());
+
+		if (k >= 2 * mn) {
+			k -= 2 * mn;
+			dq.front() -= mn;
+			dq.back() -= mn;
+		}
+		else {
+			dq.front() -= (k / 2) + (k % 2);
+			dq.back() -= (k / 2);
+			k = 0;
+		}
+
+		if (dq.front() == 0) {
+			dq.pop_front();
+		}
+		if (dq.back() == 0) {
+			dq.pop_back();
+		}
+	}
+
+	cout << n - dq.size() + (dq.size() && dq.front() <= k) << endl;
 }
 
 int main() {

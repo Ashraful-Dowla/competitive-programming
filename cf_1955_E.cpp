@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/contest/1955/problem/E
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,25 +32,55 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	int n;
+	cin >> n;
+	string s;
+	cin >> s;
 
-	ll ans = a;
+	s = "_" + s;
 
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
+	int ans = 1;
+	for (int k = 1; k <= n; ++k) {
 
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
+		int pf[n + 5] = {0};
+
+		for (int i = 1; i <= n; ++i) {
+
+			pf[i] += pf[i - 1];
+
+			if (s[i] == '1' && pf[i] % 2 == 0) {
+				continue;
+			}
+			else if (s[i] == '0' && pf[i] % 2 == 1) {
+				continue;
+			}
+			else if (i + k <= n + 1) {
+				pf[i]++;
+				pf[i + k]--;
+			}
+			else {
+				break;
+			}
 		}
 
-		c -= d;
-		b += d;
-	}
+		bool ok = true;
+		for (int i = 1; i <= n; ++i) {
+			if (s[i] == '1' && pf[i] % 2 == 0) {
+				continue;
+			}
+			else if (s[i] == '0' && pf[i] % 2 == 1) {
+				continue;
+			}
+			else {
+				ok = false;
+				break;
+			}
+		}
 
-	ans += b / 3;
-	ans += (c + 2) / 3;
+		if (ok) {
+			ans = max(ans, k);
+		}
+	}
 
 	cout << ans << endl;
 }

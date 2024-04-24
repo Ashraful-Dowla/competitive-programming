@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/contest/495/problem/C
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,36 +32,48 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	string s;
+	cin >> s;
 
-	ll ans = a;
+	stack<pair<char, int>> stk;
+	vector<pair<int, int>> hash;
 
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
+	for (int i = 0; i < s.size(); ++i) {
 
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
+		char ch = s[i];
+
+		if (ch == '(') {
+			stk.push({ch, i});
 		}
-
-		c -= d;
-		b += d;
+		else {
+			if (stk.empty() || stk.top().first != '(') {
+				cout << -1 << endl;
+				return ;
+			}
+			stk.pop();
+			if (ch == '#') {
+				hash.push_back({1, i});
+			}
+		}
 	}
 
-	ans += b / 3;
-	ans += (c + 2) / 3;
+	while (!stk.empty() && hash.back().second > stk.top().second) {
+		hash.back().first++;
+		stk.pop();
+	}
 
-	cout << ans << endl;
+	if (stk.empty()) {
+		for (auto p : hash) {
+			cout << p.first << endl;
+		}
+	}
+	else {
+		cout << -1 << endl;
+	}
 }
 
 int main() {
 	Faster;
 
-	int t;
-	cin >> t;
-
-	while (t--) {
-		solve();
-	}
+	solve();
 }

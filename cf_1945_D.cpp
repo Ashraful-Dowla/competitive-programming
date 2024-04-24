@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/problemset/problem/1945/D
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,26 +32,35 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	int n, m;
+	cin >> n >> m;
 
-	ll ans = a;
+	ll a[n + 1], b[n + 1], pb[n + 1];
 
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
-
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
-		}
-
-		c -= d;
-		b += d;
+	for (int i = 1; i <= n; ++i) {
+		cin >> a[i];
 	}
 
-	ans += b / 3;
-	ans += (c + 2) / 3;
+	for (int i = 1; i <= n; ++i) {
+		cin >> b[i];
+		pb[i] = pb[i - 1] + b[i];
+	}
 
+	int pos = n + 1, j = n;
+
+	ll res = 0;
+	while (j > m) {
+		if (a[j] < b[j]) {
+			res += a[j] + pb[pos - 1] - pb[j];
+			pos = j;
+		}
+		j--;
+	}
+
+	ll ans = 1e18;
+	for (int i = 1; i <= m; ++i) {
+		ans = min(ans, res + a[i] + pb[pos - 1] - pb[i]);
+	}
 	cout << ans << endl;
 }
 

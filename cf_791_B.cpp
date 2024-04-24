@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/contest/1945/problem/A
+https://codeforces.com/problemset/problem/791/B
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -27,41 +27,54 @@ using namespace std;
 #define prnt1(x) cout<<x<<endl
 #define prnt2(x,y) cout<<x<<" "<<y<<endl
 
-const int N = 1e5 + 10;
+const int N = 2e5 + 10;
 const int MOD = 1e9 + 7;
+
+vector<int> graph[N], t[N];
+bool vis[N];
+ll vcnt, edge;
+
+void dfs(int v) {
+
+	vis[v] = true;
+	vcnt++;
+	edge += graph[v].size();
+
+	for (int child : graph[v]) {
+		if (vis[child]) continue;
+		dfs(child);
+	}
+}
 
 void solve() {
 
-	ll a, b, c;
-	cin >> a >> b >> c;
+	int n, m;
+	cin >> n >> m;
 
-	ll ans = a;
+	for (int i = 0; i < m; ++i) {
+		int u, v;
+		cin >> u >> v;
 
-	if (b % 3) {
-		ll d = ((b + 2) / 3) * 3 - b;
-
-		if (d > c) {
-			cout << -1 << endl;
-			return ;
-		}
-
-		c -= d;
-		b += d;
+		graph[u].push_back(v);
+		graph[v].push_back(u);
 	}
 
-	ans += b / 3;
-	ans += (c + 2) / 3;
+	for (int i = 1; i <= n; ++i) {
+		if (!vis[i]) {
+			vcnt = edge = 0;
+			dfs(i);
+			if (edge != vcnt * (vcnt - 1)) {
+				cout << "NO" << endl;
+				return ;
+			}
+		}
+	}
 
-	cout << ans << endl;
+	cout << "YES" << endl;
 }
 
 int main() {
 	Faster;
 
-	int t;
-	cin >> t;
-
-	while (t--) {
-		solve();
-	}
+	solve();
 }

@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/problemset/problem/1759/D
+https://codeforces.com/problemset/problem/872/B
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,52 +32,51 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	ll n, m;
-	cin >> n >> m;
+	int n, k;
+	cin >> n >> k;
 
-	ll n0 = n, k = 1;
-	int cnt2 = 0, cnt5 = 0;
-
-	while (n > 0 && n % 2 == 0) {
-		cnt2++;
-		n /= 2;
-	}
-
-	while (n > 0 && n % 5 == 0) {
-		cnt5++;
-		n /= 5;
-	}
-
-	while (cnt2 < cnt5 && k * 2 <= m) {
-		cnt2++;
-		k *= 2;
-	}
-
-	while (cnt5 < cnt2 && k * 5 <= m) {
-		cnt5++;
-		k *= 5;
-	}
-
-	while (k * 10 <= m) {
-		k *= 10;
+	vi v(n);
+	for (int i = 0; i < n; ++i) {
+		cin >> v[i];
 	}
 
 	if (k == 1) {
-		cout << n0*m << endl;
+		cout << *min_element(v.begin(), v.end()) << endl;
+	}
+	else if (k == 2) {
+		vector<int> pf(n), sf(n);
+		for (int i = 0; i < n; ++i) {
+			if (i == 0) {
+				pf[i] = v[i];
+			}
+			else {
+				pf[i] = min(pf[i - 1], v[i]);
+			}
+		}
+
+		for (int i = n - 1; i >= 0; --i) {
+			if (i == n - 1) {
+				sf[i] = v[i];
+			}
+			else {
+				sf[i] = min(sf[i + 1], v[i]);
+			}
+		}
+
+		int mx = INT_MIN;
+		for (int i = 0; i + 1 < n; ++i) {
+			mx = max({ mx, pf[i], sf[i + 1]});
+		}
+
+		cout << mx << endl;
 	}
 	else {
-		k *= (m / k);
-		cout << n0*k << endl;
+		cout << *max_element(v.begin(), v.end()) << endl;
 	}
 }
 
 int main() {
 	Faster;
 
-	int t;
-	cin >> t;
-
-	while (t--) {
-		solve();
-	}
+	solve();
 }
