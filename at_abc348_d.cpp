@@ -1,3 +1,6 @@
+/*
+https://atcoder.jp/contests/abc348/tasks/abc348_d
+*/
 #include <bits/stdc++.h>
 using namespace std;
 
