@@ -1,6 +1,6 @@
 //Author: Ashraful Dowla
 /*
-https://codeforces.com/problemset/problem/1945/D
+https://codeforces.com/contest/1946/problem/A
 */
 #include<bits/stdc++.h>
 using namespace std;
@@ -32,36 +32,24 @@ const int MOD = 1e9 + 7;
 
 void solve() {
 
-	int n, m;
-	cin >> n >> m;
+	int n;
+	cin >> n;
 
-	ll a[n + 1], b[n + 1], pb[n + 1];
-
+	vector<int> v(n + 1);
 	for (int i = 1; i <= n; ++i) {
-		cin >> a[i];
+		cin >> v[i];
 	}
 
-	for (int i = 1; i <= n; ++i) {
-		cin >> b[i];
-		pb[i] = pb[i - 1] + b[i];
+	sort(v.begin(), v.end());
+
+	int mid = (n + 1) / 2;
+	int idx = mid;
+
+	while (idx <= n && v[mid] == v[idx]) {
+		idx++;
 	}
 
-	int pos = n + 1, j = n;
-
-	ll res = 0;
-	while (j > m) {
-		if (a[j] < b[j]) {
-			res += a[j] + pb[pos - 1] - pb[j];
-			pos = j;
-		}
-		j--;
-	}
-
-	ll ans = 1e18;
-	for (int i = 1; i <= m; ++i) {
-		ans = min(ans, res + a[i] + pb[pos - 1] - pb[i]);
-	}
-	cout << ans << endl;
+	cout << idx - mid << endl;
 }
 
 int main() {
