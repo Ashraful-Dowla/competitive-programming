@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
+typedef unsigned long long ll;
 typedef vector<ll> vll;
 typedef vector<vll> vvll;
 
